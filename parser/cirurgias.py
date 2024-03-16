@@ -2,6 +2,10 @@ from typing import List, Optional
 from pydantic import BaseModel
 import re
 
+def extrair_data_das_cirurgias(texto: str) -> str:
+    data_regex = re.compile(r"Data: (.*?)\s")
+    return data_regex.findall(texto)[0].strip()
+
 def dividir_salas(texto: str) -> List[str]:
     sala1regex = re.compile(r"Sala de Cirurgia 01(.*?)Sala de Cirurgia 02", re.DOTALL)
     sala2regex = re.compile(r"Sala de Cirurgia 02(.*?)Sala de Cirurgia 03", re.DOTALL)
