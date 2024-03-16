@@ -1,4 +1,7 @@
 **/__pycache__
+main.spec
 templates
+build
 .venv
+dist
 pdfs
