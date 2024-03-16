@@ -1,12 +1,8 @@
-import PyPDF2
+from parser.cirurgias import  pegar_procedimentos_e_ordenar_alfabeticamente
+from extractor.cirurgiasPdfExtractor import extrair_texto
+from looper.cirurgiasLooper import loop_pelas_cirurgias
 
-def extrair_texto(pdf_path: str) -> str:
-    with open(pdf_path, 'rb') as pdf_file:
-        reader = PyPDF2.PdfReader(pdf_file)
-        text = ''
-        for page_num in range(len(reader.pages)):
-            text += reader.pages[page_num].extract_text()
-    return text
-
-texto_extraido = extrair_texto('documento.pdf')
-print(texto_extraido)
+texto_total_extraido = extrair_texto("documento.pdf")
+cirurgias = loop_pelas_cirurgias(texto_total_extraido)
+procedimentos = pegar_procedimentos_e_ordenar_alfabeticamente(cirurgias[0].servicos)
+print(procedimentos)
