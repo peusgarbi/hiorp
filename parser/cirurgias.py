@@ -6,36 +6,29 @@ def extrair_data_das_cirurgias(texto: str) -> str:
     data_regex = re.compile(r"Data: (.*?)\s")
     return data_regex.findall(texto)[0].strip()
 
-def dividir_salas(texto: str) -> List[str]:
+class Salas(BaseModel):
+    sala1: str
+    sala2: str
+    sala3: str
+    sala4: str
+    sala5: str
+
+def dividir_salas(texto: str) -> Salas:
     sala1regex = re.compile(r"Sala de Cirurgia 01(.*?)Sala de Cirurgia 02", re.DOTALL)
     sala2regex = re.compile(r"Sala de Cirurgia 02(.*?)Sala de Cirurgia 03", re.DOTALL)
     sala3regex = re.compile(r"Sala de Cirurgia 03(.*?)Sala de Cirurgia 04", re.DOTALL)
     sala4regex = re.compile(r"Sala de Cirurgia 04(.*?)Sala de Cirurgia 05", re.DOTALL)
     sala5regex = re.compile(r"Sala de Cirurgia 05(.*?)$", re.DOTALL)
 
-    sala1 = sala1regex.findall(texto)
-    sala2 = sala2regex.findall(texto)
-    sala3 = sala3regex.findall(texto)
-    sala4 = sala4regex.findall(texto)
-    sala5 = sala5regex.findall(texto)
+    data = {
+        "sala1": sala1regex.findall(texto)[0],
+        "sala2": sala2regex.findall(texto)[0],
+        "sala3": sala3regex.findall(texto)[0],
+        "sala4": sala4regex.findall(texto)[0],
+        "sala5": sala5regex.findall(texto)[0],
+    }
 
-    parsedList: List[str] = []
-    for match in sala1:
-        parsedList.append(match.strip())
-
-    for match in sala2:
-        parsedList.append(match.strip())
-
-    for match in sala3:
-        parsedList.append(match.strip())
-
-    for match in sala4:
-        parsedList.append(match.strip())   
-    
-    for match in sala5:
-        parsedList.append(match.strip())
-
-    return parsedList
+    return Salas(**data)
 
 def dividir_cirurgias_da_sala(texto: str) -> List[str]:
     regex1 = re.compile(r"(Horário:.*?)(?=Horário:|$)", re.DOTALL)

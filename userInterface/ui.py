@@ -1,7 +1,8 @@
 from extractor.cirurgiasPdfExtractor import extrair_texto
 from looper.cirurgiasLooper import loop_pelas_cirurgias
-from tkinter import filedialog, messagebox, ttk
 from parser.cirurgias import extrair_data_das_cirurgias
+from tkinter import filedialog, messagebox, ttk
+from consts import surgeons
 from tkinter import *
 import webbrowser
 
@@ -10,6 +11,14 @@ def show_about():
 
 def open_github():
     webbrowser.open("https://github.com/peusgarbi/hiorp")
+
+def define_surgery_tag(surgeon: str) -> str:
+    if surgeon in surgeons.we_do_all_surgeons:
+        return "all"
+    elif surgeon in surgeons.we_only_do_descriptions_surgeons:
+        return "description"
+    else:
+        return "none"
 
 def start_program() -> None:
     # Root
@@ -66,8 +75,13 @@ def start_program() -> None:
         file_label.grid(column=0, row=5, padx=10)
 
         surgeries_tree.grid(column=0, row=6, padx=10)
-        for cirurgia in cirurgias:
-            surgeries_tree.insert(parent= "", index=END, values=(
+        surgeries_tree.tag_configure("all", foreground="green")
+        surgeries_tree.tag_configure("description", foreground="orange")
+        surgeries_tree.tag_configure("none", foreground="red")
+
+        sala1 = surgeries_tree.insert(parent="", index=END, values=("Sala 1",))
+        for cirurgia in cirurgias.sala1:
+            surgeries_tree.insert(parent=sala1, tags=(define_surgery_tag(cirurgia.cirurgiao),), index=END, values=(
                 cirurgia.horario,
                 cirurgia.paciente,
                 cirurgia.idade,
@@ -78,6 +92,57 @@ def start_program() -> None:
                 cirurgia.servicos,
             ))
 
+        sala2 = surgeries_tree.insert(parent="", index=END, values=("Sala 2",))
+        for cirurgia in cirurgias.sala2:
+            surgeries_tree.insert(parent=sala2, tags=(define_surgery_tag(cirurgia.cirurgiao),), index=END, values=(
+                cirurgia.horario,
+                cirurgia.paciente,
+                cirurgia.idade,
+                cirurgia.nascimento,
+                cirurgia.cirurgiao,
+                cirurgia.acomodacao,
+                cirurgia.convenio,
+                cirurgia.servicos,
+            ))
+
+        sala3 = surgeries_tree.insert(parent="", index=END, values=("Sala 3",))
+        for cirurgia in cirurgias.sala3:
+            surgeries_tree.insert(parent=sala3, tags=(define_surgery_tag(cirurgia.cirurgiao),), index=END, values=(
+                cirurgia.horario,
+                cirurgia.paciente,
+                cirurgia.idade,
+                cirurgia.nascimento,
+                cirurgia.cirurgiao,
+                cirurgia.acomodacao,
+                cirurgia.convenio,
+                cirurgia.servicos,
+            ))
+
+        sala4 = surgeries_tree.insert(parent="", index=END, values=("Sala 4",))
+        for cirurgia in cirurgias.sala4:
+            surgeries_tree.insert(parent=sala4, tags=(define_surgery_tag(cirurgia.cirurgiao),), index=END, values=(
+                cirurgia.horario,
+                cirurgia.paciente,
+                cirurgia.idade,
+                cirurgia.nascimento,
+                cirurgia.cirurgiao,
+                cirurgia.acomodacao,
+                cirurgia.convenio,
+                cirurgia.servicos,
+            ))
+
+        sala5 = surgeries_tree.insert(parent="", index=END, values=("Sala 5",))
+        for cirurgia in cirurgias.sala5:
+            surgeries_tree.insert(parent=sala5, tags=(define_surgery_tag(cirurgia.cirurgiao),), index=END, values=(
+                cirurgia.horario,
+                cirurgia.paciente,
+                cirurgia.idade,
+                cirurgia.nascimento,
+                cirurgia.cirurgiao,
+                cirurgia.acomodacao,
+                cirurgia.convenio,
+                cirurgia.servicos,
+            ))
 
     import_button = Button(root, text="Clique aqui para importar!", command=open_file)
     import_button.grid(column=0, row=2, pady=10)
