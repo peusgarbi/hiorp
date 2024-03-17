@@ -1,4 +1,5 @@
 from extractor.cirurgiasPdfExtractor import extrair_texto
+from compiler.surgeryDescription import make_descriptions
 from looper.cirurgiasLooper import loop_pelas_cirurgias
 from parser.cirurgias import extrair_data_das_cirurgias
 from tkinter import filedialog, messagebox, ttk
@@ -144,8 +145,10 @@ def start_program() -> None:
                 cirurgia.servicos,
             ))
 
+        generate_descriptions_button = Button(root, text="Gerar descrições", command=lambda: make_descriptions(cirurgias, surgeries_date))
+        generate_descriptions_button.grid(column=0, row=7, padx=10)
+
     import_button = Button(root, text="Clique aqui para importar!", command=open_file)
     import_button.grid(column=0, row=2, pady=10)
-
 
     root.mainloop()
